@@ -2,7 +2,7 @@
 
 This is a **RESTful API** for managing **characters and items** in Zenless Zone Zero. It allows users to create, retrieve, update, and delete characters and items, as well as assign items to characters.
 
-## 📌 Features
+## Features
 - **CRUD operations** for Characters & Items.
 - **Assign Items to Characters** dynamically.
 - **Entity Framework Core with SQL Server** as the database.
@@ -10,7 +10,7 @@ This is a **RESTful API** for managing **characters and items** in Zenless Zone 
 
 ---
 
-## 🚀 Prerequisites
+## Prerequisites
 Before setting up the project, ensure you have the following installed:
 
 - **.NET 6.0 or later** → [Download Here](https://dotnet.microsoft.com/en-us/download)
@@ -20,9 +20,9 @@ Before setting up the project, ensure you have the following installed:
 
 ---
 
-## 🔧 Setup & Installation
+##  Setup & Installation
 
-### **1️⃣ Clone the Repository**
+###  Clone the Repository**
 ```sh
 git clone https://github.com/yourusername/ZenlessZoneZeroCharacterAPI.git
 cd ZenlessZoneZeroCharacterAPI
