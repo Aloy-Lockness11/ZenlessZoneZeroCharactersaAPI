@@ -87,12 +87,31 @@ namespace ZenlessZoneZeroCharacterAPI.Controllers
         // POST: api/Items
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Items>> PostItems(Items items)
+        public async Task<ActionResult<ItemDTO>> PostItem([FromBody] ItemDTO itemDto)
         {
-            _context.Items.Add(items);
-            await _context.SaveChangesAsync();
+            if (itemDto == null)
+            {
+                return BadRequest("Item data is null");
+            }
 
-            return CreatedAtAction(nameof(GetItems), new { id = items.Id }, items);
+            var validBonusTypes = new List<string> { "Damage", "Health" };
+            if (!validBonusTypes.Contains(itemDto.BonusType))
+            {
+                return BadRequest("Invalid BonusType.");
+            }
+
+            // Call the ItemService to add the new item
+            var createdItem = await _itemService.CreateItem(itemDto);
+
+            
+
+            if (createdItem == null)
+            {
+                return BadRequest("Failed to create item");
+            }
+
+            // Return a Created response with the location of the newly created item
+            return CreatedAtAction(nameof(GetItem), new { id = createdItem.Id }, createdItem);
         }
 
         // DELETE: api/Items/5

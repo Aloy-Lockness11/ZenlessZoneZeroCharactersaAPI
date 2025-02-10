@@ -40,7 +40,7 @@ namespace ZenlessZoneZeroCharacterAPI.Services
                 Element = character.Element,
                 Health = character.Health,
                 Damage = character.Damage,
-                Items = new List<ItemDTO>()  // Return an empty list of items initially
+                Items = new List<ItemMinimalDTO>()  // Return an empty list of items initially
             };
         }
 
@@ -61,7 +61,7 @@ namespace ZenlessZoneZeroCharacterAPI.Services
             Element = character.Element,
             Health = character.Health,
             Damage = character.Damage,
-            Items = character.Items.Select(item => new ItemDTO
+            Items = character.Items.Select(item => new ItemMinimalDTO
             {
                 Id = item.Id,
                 Name = item.Name,
@@ -95,7 +95,7 @@ namespace ZenlessZoneZeroCharacterAPI.Services
                 Element = character.Element,
                 Health = character.Health,
                 Damage = character.Damage,
-                Items = character.Items.Select(item => new ItemDTO
+                Items = character.Items.Select(item => new ItemMinimalDTO
                 {
                     Id = item.Id,
                     Name = item.Name,

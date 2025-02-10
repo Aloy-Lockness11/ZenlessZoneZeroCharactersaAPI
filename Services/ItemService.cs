@@ -48,5 +48,37 @@ namespace ZenlessZoneZeroCharacterAPI.Services
                 AddedHealth = item.AddedHealth
             };
         }
+
+        public async Task<ItemDTO> CreateItem(ItemDTO itemDto)
+        {
+            // Convert ItemDTO to Item model
+            var item = new Items
+            {
+                Name = itemDto.Name,
+                Type = itemDto.Type,
+                AddedDamage = itemDto.AddedDamage,
+                AddedHealth = itemDto.AddedHealth,
+                BonusType = itemDto.BonusType,
+                BonusValue = itemDto.BonusValue
+            };
+
+
+            // Add the item to the database
+            _context.Items.Add(item);
+            await _context.SaveChangesAsync();
+
+            // Return a new ItemDTO after saving
+            return new ItemDTO
+            {
+                Id = item.Id,
+                Name = item.Name,
+                Type = item.Type,
+                AddedDamage = item.AddedDamage,
+                AddedHealth = item.AddedHealth,
+                BonusType = item.BonusType,
+                BonusValue = item.BonusValue
+
+            };
+        }
     }
 }
