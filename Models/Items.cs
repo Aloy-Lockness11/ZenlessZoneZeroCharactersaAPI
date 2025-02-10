@@ -20,9 +20,15 @@ namespace ZenlessZoneZeroCharacterAPI.Models
 
         [Required]
         [RegularExpression("^(Health|Damage)$", ErrorMessage = "Invalid Bonus Type. Type Should be of type Health, Damage")]
-        public int? BonusType { get; set; }
+        public String? BonusType { get; set; }
 
         [Required]
         public int? BonusValue { get; set; }
+
+        // Foreign Key to Characters
+        public int CharacterId { get; set; }
+
+        // Navigation Property to Characters
+        public Characters? Character { get; set; }
     }
 }
