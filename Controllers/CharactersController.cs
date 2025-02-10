@@ -10,7 +10,7 @@ using ZenlessZoneZeroCharacterAPI.Services;
 
 namespace ZenlessZoneZeroCharacterAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/ZenlessZoneZeroAPI/[controller]")]
     [ApiController]
     public class CharactersController : ControllerBase
     {
