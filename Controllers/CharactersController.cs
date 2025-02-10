@@ -86,12 +86,23 @@ namespace ZenlessZoneZeroCharacterAPI.Controllers
         // POST: api/Characters
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Characters>> PostCharacters(Characters characters)
+        public async Task<ActionResult<CharacterDTO>> PostCharacters([FromBody] CharacterDTO characterDto)
         {
-            _context.Characters.Add(characters);
-            await _context.SaveChangesAsync();
+            if (characterDto == null)
+            {
+                return BadRequest("Character data is null");
+            }
 
-            return CreatedAtAction(nameof(GetCharacters), new { id = characters.Id }, characters);
+            // Create the character without items
+            var createdCharacter = await _characterService.CreateCharacterWithoutItems(characterDto);
+
+            if (createdCharacter == null)
+            {
+                return BadRequest("Failed to create character");
+            }
+
+            // Return a Created response with the location of the newly created character
+            return CreatedAtAction(nameof(GetCharacter), new { id = createdCharacter.Id }, createdCharacter);
         }
 
         // DELETE: api/Characters/5

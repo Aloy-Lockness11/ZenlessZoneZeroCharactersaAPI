@@ -12,8 +12,41 @@ namespace ZenlessZoneZeroCharacterAPI.Services
         {
             _context = context;
         }
-    // Fetch all characters with their items and map them to DTOs
-    public async Task<List<CharacterDTO>> GetAllCharactersWithItems()
+
+
+        public async Task<CharacterDTO> CreateCharacterWithoutItems(CharacterDTO characterDto)
+        {
+            // Convert CharacterDTO to Characters model, excluding Items
+            var character = new Characters
+            {
+                Name = characterDto.Name,
+                Type = characterDto.Type,
+                Element = characterDto.Element,
+                Health = characterDto.Health,
+                Damage = characterDto.Damage,
+                Items = null  // We don't add any items here
+            };
+
+            // Add the character to the database
+            _context.Characters.Add(character);
+            await _context.SaveChangesAsync();
+
+            // Return a new CharacterDTO after saving
+            return new CharacterDTO
+            {
+                Id = character.Id,
+                Name = character.Name,
+                Type = character.Type,
+                Element = character.Element,
+                Health = character.Health,
+                Damage = character.Damage,
+                Items = new List<ItemDTO>()  // Return an empty list of items initially
+            };
+        }
+
+
+        // Fetch all characters with their items and map them to DTOs
+        public async Task<List<CharacterDTO>> GetAllCharactersWithItems()
     {
         var characters = await _context.Characters
                                         .Include(c => c.Items)  // Eager load Items
