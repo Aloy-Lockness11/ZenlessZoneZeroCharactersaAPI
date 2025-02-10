@@ -1,0 +1,6 @@
+@ZenlessZoneZeroCharacterAPI_HostAddress = http://localhost:5048
+
+GET {{ZenlessZoneZeroCharacterAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
