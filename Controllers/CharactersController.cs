@@ -52,36 +52,60 @@ namespace ZenlessZoneZeroCharacterAPI.Controllers
             return Ok(characterDto); // Returning the DTO of the single character
         }
 
-        // PUT: api/Characters/5
+        // PUT: api/Characters/5/assign-items
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCharacters(int id, Characters characters)
+        [HttpPut("{id}/assign-items")]
+        public async Task<IActionResult> AssignItemsToCharacter(int id, [FromBody] List<int> itemIds)
         {
-            if (id != characters.Id)
+            if (itemIds == null || !itemIds.Any())
             {
-                return BadRequest();
+                return BadRequest("No item IDs provided.");
             }
 
-            _context.Entry(characters).State = EntityState.Modified;
-
-            try
+            // Fetch the character including its current items
+            var character = await _context.Characters.Include(c => c.Items)
+                                                     .FirstOrDefaultAsync(c => c.Id == id);
+            if (character == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound("Character not found.");
             }
-            catch (DbUpdateConcurrencyException)
+
+            // Fetch the items to assign
+            var itemsToAssign = await _context.Items.Where(i => itemIds.Contains(i.Id)).ToListAsync();
+
+            // Check if all items were found
+            if (itemsToAssign.Count != itemIds.Count)
             {
-                if (!CharactersExists(id))
+                return NotFound("One or more items not found.");
+            }
+
+            // Assign the items to the character
+            character.Items.AddRange(itemsToAssign);
+            await _context.SaveChangesAsync();
+
+            // Include the updated character with the assigned items in the response
+            var updatedCharacter = new CharacterDTO
+            {
+                Id = character.Id,
+                Name = character.Name,
+                Type = character.Type,
+                Element = character.Element,
+                Health = character.Health,
+                Damage = character.Damage,
+                Items = character.Items.Select(item => new ItemMinimalDTO
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                    Id = item.Id,
+                    Name = item.Name,
+                    Type = item.Type,
+                    AddedDamage = item.AddedDamage,
+                    AddedHealth = item.AddedHealth,
+                }).ToList()
+            };
 
-            return NoContent();
+            // Return 201 Created with the updated character and the Location header pointing to the character resource
+            return CreatedAtAction(nameof(GetCharacter), new { id = updatedCharacter.Id }, updatedCharacter);
         }
+
 
         // POST: api/Characters
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -107,24 +131,26 @@ namespace ZenlessZoneZeroCharacterAPI.Controllers
 
         // DELETE: api/Characters/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCharacters(int id)
+        public async Task<IActionResult> DeleteCharacter(int id)
         {
-            var characters = await _context.Characters.FindAsync(id);
-            if (characters == null)
+            // Find the character by ID
+            var character = await _context.Characters.Include(c => c.Items).FirstOrDefaultAsync(c => c.Id == id);
+
+            // If character doesn't exist, return NotFound
+            if (character == null)
             {
                 return NotFound();
             }
 
-            _context.Characters.Remove(characters);
+            character.Items.Clear();
+
+            // Remove the character
+            _context.Characters.Remove(character);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return NoContent(); // 204 No Content - Successfully deleted
         }
 
-        private bool CharactersExists(int id)
-        {
-            return _context.Characters.Any(e => e.Id == id);
-        }
     }
 
 }

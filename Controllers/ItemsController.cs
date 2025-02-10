@@ -51,22 +51,31 @@ namespace ZenlessZoneZeroCharacterAPI.Controllers
             return Ok(itemDto); // Returning the ItemDTO for the single item
         }
 
-    
+
 
         // PUT: api/Items/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutItems(int id, Items items)
+        public async Task<IActionResult> PutItemName(int id, [FromBody] ItemUpdateDTO itemUpdateDto)
         {
-            if (id != items.Id)
+            // Find the item by ID
+            var item = await _context.Items.FindAsync(id);
+
+            // If item doesn't exist, return NotFound
+            if (item == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            _context.Entry(items).State = EntityState.Modified;
+            // Update the item name
+            item.Name = itemUpdateDto.Name;
+
+            // Mark the item entity as modified
+            _context.Entry(item).State = EntityState.Modified;
 
             try
             {
+                // Save changes to the database
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -80,9 +89,20 @@ namespace ZenlessZoneZeroCharacterAPI.Controllers
                     throw;
                 }
             }
+            var updatedItem = new ItemDTO
+            {
+                Id = item.Id,
+                Name = item.Name,
+                Type = item.Type,
+                AddedDamage = item.AddedDamage,
+                AddedHealth = item.AddedHealth,
+                BonusType = item.BonusType,
+                BonusValue = item.BonusValue
+            };
 
-            return NoContent();
+            return Ok(updatedItem); // 200 OK with updated item
         }
+
 
         // POST: api/Items
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -116,19 +136,24 @@ namespace ZenlessZoneZeroCharacterAPI.Controllers
 
         // DELETE: api/Items/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteItems(int id)
+        public async Task<IActionResult> DeleteItem(int id)
         {
-            var items = await _context.Items.FindAsync(id);
-            if (items == null)
+            // Find the item by ID
+            var item = await _context.Items.FindAsync(id);
+
+            // If item doesn't exist, return NotFound
+            if (item == null)
             {
                 return NotFound();
             }
 
-            _context.Items.Remove(items);
+            // Remove the item
+            _context.Items.Remove(item);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return NoContent(); // 204 No Content - Successfully deleted
         }
+
 
         private bool ItemsExists(int id)
         {

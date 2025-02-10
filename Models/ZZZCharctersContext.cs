@@ -16,7 +16,7 @@ namespace ZenlessZoneZeroCharacterAPI.Models
                 .HasOne(i => i.Character)              // Each item has one Character (Navigation property)
                 .WithMany(c => c.Items)                // A character can have many items
                 .HasForeignKey(i => i.CharacterId)     // Foreign key property in Items
-                .OnDelete(DeleteBehavior.Cascade);     // Define cascade delete behavior (optional)
+                .OnDelete(DeleteBehavior.Cascade);     // Define cascade delete behavior =
 
 
             // Seed data for Characters
