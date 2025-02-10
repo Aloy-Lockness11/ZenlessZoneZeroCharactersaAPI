@@ -28,7 +28,7 @@ namespace ZenlessZoneZeroCharacterAPI.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Element = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Heath = table.Column<int>(type: "int", nullable: false),
+                    Health = table.Column<int>(type: "int", nullable: false),
                     Damage = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -47,8 +47,8 @@ namespace ZenlessZoneZeroCharacterAPI.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Type = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    AddedDamage = table.Column<int>(type: "int", nullable: true),
-                    AddedHealth = table.Column<int>(type: "int", nullable: true),
+                    AddedDamage = table.Column<int>(type: "int", nullable: false),
+                    AddedHealth = table.Column<int>(type: "int", nullable: false),
                     BonusType = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     BonusValue = table.Column<int>(type: "int", nullable: false),
@@ -68,7 +68,7 @@ namespace ZenlessZoneZeroCharacterAPI.Migrations
 
             migrationBuilder.InsertData(
                 table: "Characters",
-                columns: new[] { "Id", "Damage", "Element", "Heath", "Name", "Type" },
+                columns: new[] { "Id", "Damage", "Element", "Health", "Name", "Type" },
                 values: new object[,]
                 {
                     { 1, 250, "Physical", 1500, "Billy Kid", "Attack" },

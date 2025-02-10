@@ -12,18 +12,18 @@ namespace ZenlessZoneZeroCharacterAPI.Models
 
         [Required]
         [RegularExpression("^(Weapon|Accessory)$", ErrorMessage = "Invalid Type. Type Should be of type Weapon, Accessory")]
-        public string? Type { get; set; }
+        public string Type { get; set; }
 
-        public int? AddedDamage { get; set; }
+        public int AddedDamage { get; set; }
 
-        public int? AddedHealth { get; set; }
+        public int AddedHealth { get; set; }
 
         [Required]
         [RegularExpression("^(Health|Damage)$", ErrorMessage = "Invalid Bonus Type. Type Should be of type Health, Damage")]
-        public String? BonusType { get; set; }
+        public String BonusType { get; set; }
 
         [Required]
-        public int? BonusValue { get; set; }
+        public int BonusValue { get; set; }
 
         // Foreign Key to Characters
         public int CharacterId { get; set; }

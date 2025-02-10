@@ -1,6 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using ZenlessZoneZeroCharacterAPI.Models;
+using ZenlessZoneZeroCharacterAPI.Services;
 
 namespace ZenlessZoneZeroCharacterAPI
 {
@@ -14,6 +15,8 @@ namespace ZenlessZoneZeroCharacterAPI
 
             builder.Services.AddControllers();
 
+            //initing Character service
+            builder.Services.AddScoped<CharacterService>();
             // Configure MySQL database
             builder.Services.AddDbContext<ZZZCharactersContext>(options =>
                 options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),

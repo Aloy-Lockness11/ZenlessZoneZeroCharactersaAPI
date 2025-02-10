@@ -21,10 +21,10 @@ namespace ZenlessZoneZeroCharacterAPI.Models
 
             // Seed data for Characters
             modelBuilder.Entity<Characters>().HasData(
-                new Characters { Id = 1, Name = "Billy Kid", Type = "Attack", Element = "Physical", Heath = 1500, Damage = 250 },
-                new Characters { Id = 2, Name = "Nicole Demara", Type = "Support", Element = "Ether", Heath = 1200, Damage = 180 },
-                new Characters { Id = 3, Name = "Soldier Eleven", Type = "Defence", Element = "Fire", Heath = 2000, Damage = 150 },
-                new Characters { Id = 4, Name = "Miyabi", Type = "Attack", Element = "Ice", Heath = 1300, Damage = 300 }
+                new Characters { Id = 1, Name = "Billy Kid", Type = "Attack", Element = "Physical", Health = 1500, Damage = 250 },
+                new Characters { Id = 2, Name = "Nicole Demara", Type = "Support", Element = "Ether", Health = 1200, Damage = 180 },
+                new Characters { Id = 3, Name = "Soldier Eleven", Type = "Defence", Element = "Fire", Health = 2000, Damage = 150 },
+                new Characters { Id = 4, Name = "Miyabi", Type = "Attack", Element = "Ice", Health = 1300, Damage = 300 }
             );
 
             // Seed data for Items and assign them to characters

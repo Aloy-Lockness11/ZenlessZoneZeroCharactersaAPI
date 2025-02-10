@@ -14,18 +14,18 @@ namespace ZenlessZoneZeroCharacterAPI.Models
         //zenlesszonezero charater types 
         [Required]
         [RegularExpression("^(Anomaly|Attack|Defence|Stun|Support)$", ErrorMessage = "Invalid Type. Type Should be of type Anomaly, Attack, Defence, Stun, Support")]
-        public string? Type { get; set; }
+        public string Type { get; set; }
 
         //zenlesszonezero charater elements
         [Required]
-        [RegularExpression("^(Electric|Ether||Fire|Ice|Physical)$", ErrorMessage = "Invalid Element Element Should be of type Electric, Ether, Fire, Ice, Physical")]
-        public String? Element { get; set; }
+        [RegularExpression("^(Electric|Ether|Fire|Ice|Physical)$", ErrorMessage = "Invalid Element Element Should be of type Electric, Ether, Fire, Ice, Physical")]
+        public String Element { get; set; }
 
         [Required]
-        public int? Heath { get; set; }
+        public int Health { get; set; }
 
         [Required]
-        public int? Damage { get; set; }
+        public int Damage { get; set; }
 
         public List<Items>? Items { get; set; }
     }
