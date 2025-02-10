@@ -26,7 +26,7 @@ namespace ZenlessZoneZeroCharacterAPI.Models
         public int BonusValue { get; set; }
 
         // Foreign Key to Characters
-        public int CharacterId { get; set; }
+        public int? CharacterId { get; set; }
 
         // Navigation Property to Characters
         public Characters? Character { get; set; }

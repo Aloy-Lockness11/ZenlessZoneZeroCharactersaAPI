@@ -15,8 +15,11 @@ namespace ZenlessZoneZeroCharacterAPI
 
             builder.Services.AddControllers();
 
-            //initing Character service
-            builder.Services.AddScoped<CharacterService>();
+           
+            builder.Services.AddScoped<CharacterService>();// Registering CharacterService
+            builder.Services.AddScoped<ItemService>(); // Registering ItemService
+
+
             // Configure MySQL database
             builder.Services.AddDbContext<ZZZCharactersContext>(options =>
                 options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
